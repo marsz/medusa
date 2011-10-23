@@ -32,10 +32,10 @@ group :test, :development do
   gem 'turn', :require => false
   gem "rspec"
   gem "rspec-rails"
+  gem "shoulda-matchers"
   gem "watchr"
 end
 
 gem 'capistrano'
 gem 'rest-client'
 gem 'whenever', :require => false
-
