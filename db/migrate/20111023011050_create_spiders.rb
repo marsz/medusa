@@ -10,5 +10,8 @@ class CreateSpiders < ActiveRecord::Migration
       t.timestamps
     end
     add_index :spiders, :ip, :unique=>true
+    add_index :spiders, :account_id
+    add_index :spiders, :is_enabled
+    add_index :spiders, :connect_type
   end
 end

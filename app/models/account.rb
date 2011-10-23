@@ -1,4 +1,5 @@
 class Account < ActiveRecord::Base
+  
   serialize :connect_detail
   has_many :spiders
   

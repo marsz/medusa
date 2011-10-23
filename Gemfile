@@ -34,8 +34,10 @@ group :test, :development do
   gem "rspec-rails"
   gem "shoulda-matchers"
   gem "watchr"
+  gem "factory_girl_rails"
 end
 
 gem 'capistrano'
 gem 'rest-client'
 gem 'whenever', :require => false
+gem 'domainatrix'

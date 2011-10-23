@@ -3,8 +3,8 @@ require 'spec_helper'
 
 describe Spider do
   before do
-    @account = Account.create!(:name => "marsz-proxymesh",:host => "us.proxymesh.com", :port => 31280, :user=>"sogiProxy", :secret => "Proxy_Sogi")
-    @spider = Spider.create!(:ip => "us.proxymesh.com", :connect_type=>:proxy,:account => @account)
+    @account = Factory(:account)
+    @spider = Factory(:spider, :account=>@account)
   end
   it {should validate_presence_of(:connect_type)}
   it {should validate_presence_of(:account_id)}
