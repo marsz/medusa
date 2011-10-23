@@ -1,0 +1,10 @@
+development:
+  user: ""
+  password: ""
+  port: 31280
+  host: ""
+test:
+  user: ""
+  password: ""
+  port: 31280
+  host: ""

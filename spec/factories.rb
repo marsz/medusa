@@ -1,14 +1,14 @@
 Factory.define :account do |f|
   f.name "marsz-proxymesh"
-  f.host "us.proxymesh.com"
-  f.port 31280
-  f.user "sogiProxy"
-  f.secret "Proxy_Sogi"
+  f.host $proxy_config[:host]
+  f.port $proxy_config[:port]
+  f.user $proxy_config[:user]
+  f.secret $proxy_config[:password]
 end
 
 Factory.define :spider do |f|
   f.account_id 1
-  f.ip "us.proxymesh.com"
+  f.ip $proxy_config[:host]
   f.connect_type :proxy
   f.is_enabled true
 end
