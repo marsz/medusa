@@ -34,6 +34,7 @@ group :test, :development do
   gem "rspec-rails"
   gem "shoulda-matchers"
   gem "watchr"
+  gem "factory_girl_rails"
 end
 
 gem 'capistrano'
