@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111023013915) do
+ActiveRecord::Schema.define(:version => 20111023105915) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(:version => 20111023013915) do
     t.datetime "updated_at"
   end
 
+  create_table "domain_crawlings", :force => true do |t|
+    t.string   "domain"
+    t.integer  "spider_id"
+    t.datetime "crawled_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "domain_crawlings", ["domain", "spider_id"], :name => "index_domain_crawlings_on_domain_and_spider_id", :unique => true
+  add_index "domain_crawlings", ["spider_id"], :name => "index_domain_crawlings_on_spider_id"
+
   create_table "spiders", :force => true do |t|
     t.string   "ip"
     t.integer  "port"
@@ -35,6 +46,9 @@ ActiveRecord::Schema.define(:version => 20111023013915) do
     t.datetime "updated_at"
   end
 
+  add_index "spiders", ["account_id"], :name => "index_spiders_on_account_id"
+  add_index "spiders", ["connect_type"], :name => "index_spiders_on_connect_type"
   add_index "spiders", ["ip"], :name => "index_spiders_on_ip", :unique => true
+  add_index "spiders", ["is_enabled"], :name => "index_spiders_on_is_enabled"
 
 end
