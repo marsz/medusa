@@ -1,7 +1,7 @@
 module ActAsSpiderPickable
   extend ActiveSupport::Concern
   module ClassMethods
-    def pick_spider(url, options = {})
+    def pick_spider(url)
       domain = Domainatrix.parse(url).domain
       enabled_spider_ids = Spider.enabled.map{|spider|spider.id}
       spider_ids = DomainCrawling.where(:spider_id => enabled_spider_ids).order("crawled_at ASC").map{|domain_crawling|domain_crawling.spider_id}
@@ -17,6 +17,13 @@ module ActAsSpiderPickable
       tmp = (url.to_s.index("http") != 0) ? "http://#{url}" : url
       tmp = Domainatrix.parse(tmp) rescue nil
       return tmp ? tmp.domain : url
+    end
+    def crawling(url, query = {}, options = {})
+      if spider = pick_spider(url)
+        spider.fetch(url, query, options)
+      else
+        raise "no spider for crawling"
+      end
     end
   end
   module InstanceMethods

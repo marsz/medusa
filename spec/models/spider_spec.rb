@@ -2,9 +2,9 @@
 require 'spec_helper'
 
 describe Spider do
+  include DataMaker
   before do
-    @account = Factory(:account)
-    @spider = Factory(:spider, :account=>@account)
+    making_for_real_fetch
   end
   it {should validate_presence_of(:connect_type)}
   it {should validate_presence_of(:account_id)}
