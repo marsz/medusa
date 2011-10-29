@@ -5,3 +5,4 @@ tmp/
 .sass-cache/
 config/database.yml
 config/proxymesh.yml
+config/deploy/*
