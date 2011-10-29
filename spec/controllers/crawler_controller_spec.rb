@@ -7,7 +7,6 @@ describe CrawlerController do
   end
   it "fetching...." do
     get :fetch, :url => "http://www.google.com"
-    puts response.body.length.to_s+"qqqqqq"
     response.status.should == 200
     post :fetch, :url => "http://www.bing.com"
     response.status.should == 200
