@@ -1,4 +1,10 @@
 Medusa::Application.routes.draw do
+  resources :crawler do
+    collection do
+      get 'fetch'
+      post 'fetch'
+    end
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
