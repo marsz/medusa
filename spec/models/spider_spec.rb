@@ -8,10 +8,12 @@ describe Spider do
   end
   it {should validate_presence_of(:connect_type)}
   it {should validate_presence_of(:account_id)}
+  it {should validate_presence_of(:ip)}
   it {
     should validate_uniqueness_of(:ip)
   }
   it {should allow_value(:proxy).for(:connect_type)}
+  it {should allow_value("proxy").for(:connect_type)}
   it {should_not allow_value(:abc).for(:connect_type)}
   describe "method - fetch" do
     it "normal + encoding" do

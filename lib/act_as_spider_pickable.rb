@@ -20,7 +20,12 @@ module ActAsSpiderPickable
     end
     def crawling(url, query = {}, options = {})
       if spider = pick_spider(url)
-        spider.fetch(url, query, options)
+        result = spider.fetch(url, query, options)
+        if result
+          domain = parse_domain(url)
+          DomainCrawling.find_by_domain_and_spider_id(domain,spider.id).update_attributes(:crawled_at=>Time.now)
+        end
+        result
       else
         raise "no spider for crawling"
       end

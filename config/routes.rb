@@ -1,4 +1,7 @@
 Medusa::Application.routes.draw do
+  resources :accounts, :only => [:create,:update] do
+    resources :spiders, :only => [:create, :update]
+  end
   resources :crawler do
     collection do
       get 'fetch'
