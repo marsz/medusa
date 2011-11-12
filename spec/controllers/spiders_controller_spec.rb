@@ -5,6 +5,12 @@ describe SpidersController do
     @account = Factory(:account)
     @account2 = Factory(:account, :name => @account.name+"qqq")
   end
+  it "get validate" do
+    get :validate, :account_id => @account.name
+    response.status.should == 200
+    get :validate, :account_id => @account.name+"123"
+    response.status.should == 404
+  end
   it "post create" do
     spider = {:connect_type=>:proxy}
     post :create, :account_id => @account.id, :spider => spider
