@@ -15,6 +15,17 @@ describe Spider do
   it {should allow_value(:proxy).for(:connect_type)}
   it {should allow_value("proxy").for(:connect_type)}
   it {should_not allow_value(:abc).for(:connect_type)}
+  describe "method - validate" do
+    it "validate false and true" do
+      now = Time.now
+      @spider.validate.should == true
+      (@spider.last_validated_at >= now).should == true
+      @spider.is_enabled.should == true
+      @spider.update_attributes(:ip=>"0.0.0.0")
+      @spider.validate.should == true
+      @spider.is_enabled.should == false
+    end
+  end
   describe "method - fetch" do
     it "normal + encoding" do
       url = "http://www.urcosme.com"
