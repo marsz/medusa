@@ -1,5 +1,6 @@
 module ActAsSpiderPickable
   extend ActiveSupport::Concern
+  include ActAsDomainParsable
   module ClassMethods
     def pick_spider(url)
       domain = parse_domain(url)
@@ -12,11 +13,6 @@ module ActAsSpiderPickable
         end
       end
       spider_ids.size > 0 ? Spider.find(spider_ids[0]) : nil
-    end
-    def parse_domain(url)
-      tmp = (url.to_s.index("http") != 0) ? "http://#{url}" : url
-      tmp = Domainatrix.parse(tmp) rescue nil
-      return tmp ? tmp.domain.downcase : url
     end
     def crawling(url, query = {}, options = {})
       if options[:ip]
