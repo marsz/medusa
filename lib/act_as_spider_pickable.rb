@@ -19,7 +19,13 @@ module ActAsSpiderPickable
       return tmp ? tmp.domain.downcase : url
     end
     def crawling(url, query = {}, options = {})
-      if spider = pick_spider(url)
+      if options[:ip]
+        spider = Spider.find_by_ip_and_is_enabled(options[:ip], true)
+      else
+        spider = pick_spider(url)
+      end
+      # logger.debug "---------------------"+spider.inspect
+      if spider
         result = spider.fetch(url, query, options)
         if result
           domain = parse_domain(url)
