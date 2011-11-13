@@ -24,6 +24,7 @@ namespace :deploy do
     scm_update
     bundle_install
     db_migrate
+    cron
     httpd_restart
   end
   task :tmp_clean do
@@ -37,6 +38,9 @@ namespace :deploy do
   end
   task :db_migrate do
      run "cd #{release_path};rake db:migrate RAILS_ENV=production;"
+  end
+  task :cron do
+    run "cd #{release_path} && whenever --update-crontab;"
   end
   task :httpd_restart do
      default_run_options[:pty] = true
