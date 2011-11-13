@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111023105915) do
+ActiveRecord::Schema.define(:version => 20111113142804) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,21 @@ ActiveRecord::Schema.define(:version => 20111023105915) do
     t.string   "host"
     t.integer  "port"
     t.text     "connect_data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "app_crawlings", :force => true do |t|
+    t.integer  "app_id"
+    t.text     "url"
+    t.string   "domain"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "apps", :force => true do |t|
+    t.string   "token"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
