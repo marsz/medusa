@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(:version => 20111023105915) do
     t.datetime "updated_at"
   end
 
+  create_table "apps", :force => true do |t|
+    t.string   "token"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "domain_crawlings", :force => true do |t|
     t.string   "domain"
     t.integer  "spider_id"

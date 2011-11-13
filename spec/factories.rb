@@ -1,3 +1,8 @@
+Factory.define :app do |f|
+  f.name "marsz"
+  f.token "1234"
+end
+
 Factory.define :account do |f|
   f.name "marsz-proxymesh"
   f.host $proxy_config[:host]
