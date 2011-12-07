@@ -7,3 +7,4 @@ config/database.yml
 config/proxymesh.yml
 config/deploy/*
 lib/tasks/import.rake
+config/shared/*

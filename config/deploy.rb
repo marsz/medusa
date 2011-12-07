@@ -44,6 +44,6 @@ namespace :deploy do
   end
   task :httpd_restart do
      default_run_options[:pty] = true
-     run "sudo service httpd restart;"
+     run "sudo /etc/init.d/apache2 restart"
   end
 end
