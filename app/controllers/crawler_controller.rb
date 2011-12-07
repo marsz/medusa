@@ -20,4 +20,5 @@ class CrawlerController < ApplicationController
       render :status => 500, :text => "missing parameter : url"
     end
   end
+  
 end
