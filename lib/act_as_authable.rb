@@ -2,7 +2,7 @@ module ActAsAuthable
   extend ActiveSupport::Concern
   module ClassMethods
     def act_as_authable
-      before_filter :authenticate_app
+      before_filter :authenticate_app, :only=>[:fetch]
     end
   end
   module InstanceMethods
