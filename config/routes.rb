@@ -1,4 +1,5 @@
 Medusa::Application.routes.draw do
+  
   resources :accounts, :only => [:create,:update] do
     member do
       get "refresh_ip_list"
@@ -9,6 +10,7 @@ Medusa::Application.routes.draw do
       end
     end
   end
+  
   resources :crawler do
     collection do
       get 'fetch'
