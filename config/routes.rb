@@ -7,6 +7,7 @@ Medusa::Application.routes.draw do
     resources :spiders, :only => [:create, :update, :destroy], do
       collection do
         get "validate"
+        post "validate"
       end
     end
   end

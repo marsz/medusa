@@ -6,16 +6,16 @@ module ActAsAuthable
     end
   end
   module InstanceMethods
-    def authenticate_app
-      if @app = authenticating(params[:token])
-      else
-        render :status => 500, :text => "token fail"
-      end
-    end
+    
     protected
-    def log_crawling app, url
-      AppCrawling.create!(:app => app, :url => url)
+    
+    def authenticate_app
+      @app = authenticating(params[:token])
+      raise "token fail" if !@app
     end
+    
+    private
+    
     def authenticating token
       app = nil
       if !token.blank?
@@ -24,4 +24,5 @@ module ActAsAuthable
       app
     end
   end
+  
 end
