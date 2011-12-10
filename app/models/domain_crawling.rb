@@ -11,7 +11,7 @@ class DomainCrawling < ActiveRecord::Base
   
   protected
   def domain_refine
-    self.domain = self.class.parse_domain(self.domain) || self.domain
+    self.domain = parse_domain(self.domain) || self.domain
     self.domain = self.domain.downcase.gsub(" ","")
   end
 end

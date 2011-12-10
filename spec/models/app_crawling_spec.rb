@@ -8,6 +8,7 @@ describe AppCrawling do
   it {should validate_presence_of(:app_id)}
   it {should validate_presence_of(:url)}
   it {should belong_to(:app)}
+  
   it "retrieve_domain automatically" do
     url = "http://www.google.com"
     app_crawling = AppCrawling.create(:app => @app, :url => url)

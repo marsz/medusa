@@ -12,23 +12,19 @@ describe DomainCrawling do
   it {
     should validate_uniqueness_of(:domain).scoped_to(:spider_id)
   }
-  it "downcase before save" do
+  
+  it "before save: domain_refine" do
     @instance.update_attributes(:domain => @domain.upcase)
-    DomainCrawling.find(@instance.id).domain.should == @domain.downcase
+    domain_crawling = DomainCrawling.find(@instance.id)
+    domain_crawling.domain.should == @instance.domain.downcase
   end
   
-  it "pick spider" do 
-    if DomainCrawling.ancestors.include?(ActAsSpiderPickable)
-      disabled_spider = Factory(:spider, :is_enabled=>false,:ip=>'127.0.0.2')
-      another_spider = Factory(:spider, :ip=>'127.0.0.3')
-      spider = DomainCrawling.pick_spider("http://#{@domain}")
-      spider.should_not == nil
-      # puts DomainCrawling.all.inspect
-      search = DomainCrawling.by_domain(@domain.downcase)
-      # puts search.where(:spider_id=>spider.id).to_sql
-      search.where(:spider_id=>spider.id).count.should == 1
-      search.where(:spider_id=>disabled_spider.id).count.should == 0
-      search.where(:spider_id=>another_spider.id).count.should == 1
+  describe "scopes" do
+    it "by_domain" do
+      domain_crawling = Factory(:domain_crawling, :domain => "foo")
+      DomainCrawling.by_domain("foo").first.should == domain_crawling
+      DomainCrawling.by_domain("www.foo.com").first.should == domain_crawling
     end
   end
+  
 end
