@@ -1,24 +1,43 @@
-Factory.define :app do |f|
-  f.name "marsz"
-  f.token "1234"
-end
+FactoryGirl.define do
+  factory :app do
+    name "marsz"
+    token "1234"
+  end
 
-Factory.define :account do |f|
-  f.name "marsz-proxymesh"
-  f.host $proxy_config[:host]
-  f.port $proxy_config[:port]
-  f.user $proxy_config[:user]
-  f.secret $proxy_config[:password]
-end
+  factory :account do
+    name "marsz-proxymesh"
+    host $proxy_config[:host]
+    port $proxy_config[:port]
+    user $proxy_config[:user]
+    secret $proxy_config[:password]
+    
+    factory :account_proxy do
+    end
+    
+  end
 
-Factory.define :spider do |f|
-  f.account_id 1
-  f.ip $proxy_config[:host]
-  f.connect_type :proxy
-  f.is_enabled true
-end
+  factory :spider do
+    account_id 1
+    ip $proxy_config[:host]
+    connect_type :proxy
+    is_enabled true
+    
+    factory :spider_proxy do
+    end
+    
+    factory :spider_enabled do
+      ip "129.9.9.9"
+      is_enabled true
+    end
+    
+    factory :spider_disabled do
+      ip "129.8.8.8"
+      is_enabled false
+    end
+  end
 
-Factory.define :domain_crawling do |f|
-  f.domain "www.qqq.com"
-  f.spider_id 1
+  factory :domain_crawling do
+    domain "qqq"
+    spider_id 1
+  end
 end
