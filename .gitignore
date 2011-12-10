@@ -5,6 +5,5 @@ tmp/
 .sass-cache/
 config/database.yml
 config/proxymesh.yml
-config/deploy/*
+config/builder.yml
 lib/tasks/import.rake
-config/shared/*
