@@ -1,6 +1,7 @@
 module ActAsSpiderPickable
   extend ActiveSupport::Concern
   include ActAsDomainParsable
+  
   module ClassMethods
     def pick_spider(url)
       domain = parse_domain(url)

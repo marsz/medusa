@@ -10,7 +10,13 @@ module ActAsProxy
       port = self.port || self.account.port
       host = self.ip || self.account.host
       RestClient.proxy = "http://#{self.account.user}:#{self.account.secret}@#{host}:#{port}"
-      RestClient.method(method).call(url, query_data)
+      nil
+      begin
+        RestClient.method(method).call(url, query_data)
+      rescue RestClient::ServiceUnavailable
+      rescue RestClient::ResourceNotFound
+      rescue RestClient::Forbidden
+      end
     end
   end
 end
