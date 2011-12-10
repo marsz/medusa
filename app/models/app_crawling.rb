@@ -8,6 +8,6 @@ class AppCrawling < ActiveRecord::Base
   
   protected
   def retrieve_domain
-    self.domain = AppCrawling.parse_domain(self.url)
+    self.domain = parse_domain(self.url)
   end
 end
