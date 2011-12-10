@@ -22,3 +22,7 @@
 every 1.day do
   rake "cron:validate_spiders"
 end
+
+every 1.day, :at => "am 05:00" do
+  rake "cron:builder:trigger"
+end

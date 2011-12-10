@@ -1,0 +1,4 @@
+production:
+  :host: "your host"
+  :user: "user"
+  :password: "password"
