@@ -21,8 +21,14 @@ class CrawlerController < ApplicationController
   def render_output data, options = {}
     result = {
       :options => options,:method=>request.method.downcase,
-      :url=>params[:url],:query=>params[:query],:data => data
+      :url=>params[:url],:query=>params[:query]
     }
+    if data.is_a?(Fixnum)
+      result[:status] = data
+    else
+      result[:data] = data
+      result[:status] = 200
+    end
     respond_to do |f|
       f.html {render :text => result[:data].to_s}
       f.json {render :json => result.to_json}

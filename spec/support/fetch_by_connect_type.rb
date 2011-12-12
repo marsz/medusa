@@ -18,14 +18,9 @@ shared_examples_for "fetch_by_connect_type" do
     
     it "dns error url" do
       url = "http://www.mmaarrsszzoonnee.tw"
-      @spider.send("fetch_by_#{@connect_type}", url).should be_nil
+      @spider.send("fetch_by_#{@connect_type}", url).should == 500
     end
-    
-    it "dns error url" do
-      url = "http://www.mmaarrsszzoonnee.tw"
-      @spider.send("fetch_by_#{@connect_type}", url).should be_nil
-    end
-    
+        
     it "ip error url" do
       url = "http://256.256.256"
       expect {
@@ -35,7 +30,7 @@ shared_examples_for "fetch_by_connect_type" do
     
     it "404 url" do
       url = "http://www.google.com.tw/abvdefg"
-      @spider.send("fetch_by_#{@connect_type}", url).should be_nil
+      @spider.send("fetch_by_#{@connect_type}", url).should == 404
     end
     
     it "invalid url" do
@@ -52,7 +47,7 @@ shared_examples_for "fetch_by_connect_type" do
     
     it "403 url" do
       url = "http://a033755191.pixnet.net/blog/listall/1"
-      @spider.send("fetch_by_#{@connect_type}", url).should be_nil
+      @spider.send("fetch_by_#{@connect_type}", url).should == 403
     end
     
     # urls = {
