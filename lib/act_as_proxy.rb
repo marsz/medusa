@@ -13,20 +13,31 @@ module ActAsProxy
       begin
         RestClient.method(method).call(url, query_data)
       rescue => e
-        case e
-        when RestClient::BadGateway
-          502
-        when RestClient::ServiceUnavailable
-          503
-        when RestClient::ResourceNotFound
-          404
-        when RestClient::Forbidden
-          403
-        else
-          Airbrake.notify(e, :parameters => {:spider => self.id, :url => url, :query => query_data})
-          500
-        end
+        handle_exception_from_fetch(e, url, query_data, options)
       end
     end
+    
+    private
+    
+    def handle_exception_from_fetch e, url, query_data = {}, options = {}
+      case e
+      when RestClient::BadGateway
+        502
+      when RestClient::ServiceUnavailable
+        503
+      when RestClient::ResourceNotFound
+        404
+      when RestClient::Forbidden
+        403
+      when Net::HTTPBadResponse
+        400
+      when RestClient::RequestTimeout
+        408
+      else
+        Airbrake.notify(e, :parameters => {:spider => self.id, :url => url, :query => query_data})
+        500
+      end
+    end
+    
   end
 end
