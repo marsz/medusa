@@ -18,14 +18,12 @@ shared_examples_for "fetch_by_connect_type" do
     
     it "dns error url" do
       url = "http://www.mmaarrsszzoonnee.tw"
-      @spider.send("fetch_by_#{@connect_type}", url).should == 500
+      @spider.send("fetch_by_#{@connect_type}", url).should == 503
     end
         
     it "ip error url" do
       url = "http://256.256.256"
-      expect {
-        @spider.send("fetch_by_#{@connect_type}", url).should be_true
-      }.to raise_error(URI::InvalidURIError)
+      @spider.send("fetch_by_#{@connect_type}", url).should == 500
     end
     
     it "404 url" do
@@ -35,9 +33,7 @@ shared_examples_for "fetch_by_connect_type" do
     
     it "invalid url" do
       url = "oh my gooddness"
-      expect {
-        @spider.send("fetch_by_#{@connect_type}", url).should
-      }.to raise_error(URI::InvalidURIError)
+      @spider.send("fetch_by_#{@connect_type}", url).should == 500
     end
 
     it "https url" do

@@ -9,19 +9,26 @@ class Spider < ActiveRecord::Base
   validates_inclusion_of :connect_type, :in => [:proxy]
   before_validation :symbolize_connect_type
   belongs_to :account
+
+  attr_reader :response_code
   
   def fetch url, query_data = {}, options = {}
     query_data ||= {}
     encode = options[:encoding] || 'UTF-8'
     content = method("fetch_by_#{connect_type}").call(url,query_data, options)
-    content = Iconv.new('UTF-8//IGNORE', encode).iconv(content) if content.is_a?(String)
-    content
+    set_response_code_by_content(content)
+    fetch_success? ? Iconv.new('UTF-8//IGNORE', encode).iconv(content) : nil
+  end
+  
+  def fetch_success?
+    @response_code == 200
   end
 
   def validate options = {}
     url = options[:url] || "http://www.bing.com/"
     begin
-      is_enabled = !self.fetch(url).blank?
+      fetch(url)
+      is_enabled = fetch_success?
     rescue
       is_enabled = false
     end
@@ -32,5 +39,9 @@ class Spider < ActiveRecord::Base
   
   def symbolize_connect_type
     self.connect_type = self.connect_type.to_sym if self.connect_type
+  end
+  
+  def set_response_code_by_content content
+    @response_code = content.is_a?(String)? 200 : content
   end
 end

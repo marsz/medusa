@@ -44,6 +44,7 @@ describe Spider do
       content = @spider.fetch(url,nil,{:encoding=>"big5"})
       (content.size > 0).should == true
       (content.index("美") != nil).should == true
+      @spider.fetch_success?.should == true
       (@spider.fetch(url).index("美") == nil).should == true
     end
   end

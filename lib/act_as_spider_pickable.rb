@@ -24,11 +24,13 @@ module ActAsSpiderPickable
       # logger.debug "---------------------"+spider.inspect
       if spider
         result = spider.fetch(url, query, options)
-        if result
+        if spider.fetch_success?
           domain = parse_domain(url)
           DomainCrawling.find_by_domain_and_spider_id(domain,spider.id).update_attributes(:crawled_at=>Time.now)
+          result
+        else
+          spider.response_code
         end
-        result
       else
         raise "no spider for crawling"
       end

@@ -6,4 +6,5 @@ tmp/
 config/database.yml
 config/proxymesh.yml
 config/builder.yml
+config/airbrake.yml
 lib/tasks/import.rake
