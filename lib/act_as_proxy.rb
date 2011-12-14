@@ -23,7 +23,7 @@ module ActAsProxy
         when RestClient::Forbidden
           403
         else
-          Airbrake.notify(e, :parameters => {:spider => self, :url => url, :query => query_data})
+          Airbrake.notify(e, :parameters => {:spider => self.id, :url => url, :query => query_data})
           500
         end
       end
