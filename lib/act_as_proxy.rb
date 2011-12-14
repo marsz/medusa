@@ -12,14 +12,20 @@ module ActAsProxy
       RestClient.proxy = "http://#{self.account.user}:#{self.account.secret}@#{host}:#{port}"
       begin
         RestClient.method(method).call(url, query_data)
-      rescue RestClient::BadGateway
-        502
-      rescue RestClient::ServiceUnavailable
-        500
-      rescue RestClient::ResourceNotFound
-        404
-      rescue RestClient::Forbidden
-        403
+      rescue => e
+        case e
+        when RestClient::BadGateway
+          502
+        when RestClient::ServiceUnavailable
+          503
+        when RestClient::ResourceNotFound
+          404
+        when RestClient::Forbidden
+          403
+        else
+          Airbrake.notify(e, :params => {:spider => self, :url => url, :query => query_data})
+          500
+        end
       end
     end
   end

@@ -64,7 +64,7 @@ describe CrawlerController do
     it "should response 500" do
       get 'fetch', :format => :json, :url => "http://mmaarrsszz.com",:token => @app.token
       response.should be_success
-      ActiveSupport::JSON.decode(response.body)["status"].should == 500
+      ActiveSupport::JSON.decode(response.body)["status"].should == 503
     end
     
     it "should response 403" do
@@ -80,9 +80,8 @@ describe CrawlerController do
     end
     
     it "should raise exception" do
-      expect {
-        get 'fetch', :format => :json, :url => "dalskjd adskljdsa",:token => @app.token
-      }.to raise_error(URI::InvalidURIError)
+      get 'fetch', :format => :json, :url => "dalskjd adskljdsa",:token => @app.token
+      ActiveSupport::JSON.decode(response.body)["status"].should == 500
     end
     
   end
