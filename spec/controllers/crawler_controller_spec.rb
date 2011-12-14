@@ -81,7 +81,7 @@ describe CrawlerController do
     
     it "should raise exception" do
       get 'fetch', :format => :json, :url => "dalskjd adskljdsa",:token => @app.token
-      ActiveSupport::JSON.decode(response.body)["status"].should == 500
+      ActiveSupport::JSON.decode(response.body)["status"].should == 0
     end
     
   end

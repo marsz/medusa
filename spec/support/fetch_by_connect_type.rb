@@ -23,7 +23,7 @@ shared_examples_for "fetch_by_connect_type" do
         
     it "ip error url" do
       url = "http://256.256.256"
-      @spider.send("fetch_by_#{@connect_type}", url).should == 500
+      @spider.send("fetch_by_#{@connect_type}", url).should == 0
     end
     
     it "404 url" do
@@ -33,7 +33,7 @@ shared_examples_for "fetch_by_connect_type" do
     
     it "invalid url" do
       url = "oh my gooddness"
-      @spider.send("fetch_by_#{@connect_type}", url).should == 500
+      @spider.send("fetch_by_#{@connect_type}", url).should == 0
     end
 
     it "https url" do
