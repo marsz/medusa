@@ -27,10 +27,11 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :symlink_shared, :roles => [:app] do
-    symlink_hash = {
-      "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
-      "#{shared_path}/config/builder.yml" => "#{release_path}/config/builder.yml"
-    }
+    config_files = [:database, :builder, :airbrake]
+    symlink_hash = {}
+    config_files.each do |fname|
+      symlink_hash["#{shared_path}/config/#{fname}.yml"] = "#{release_path}/config/#{fname}.yml"
+    end
     symlink_hash.each do |source, target|
       run "cp #{source} #{target}"
     end
@@ -42,3 +43,6 @@ before "deploy:migrate", "deploy:symlink_shared"
 after "deploy", "deploy:cleanup"
 after "deploy", "deploy:symlink_shared"
 after "deploy:migrations", "deploy:cleanup"
+
+        require './config/boot'
+        require 'airbrake/capistrano'
