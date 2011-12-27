@@ -33,7 +33,7 @@ namespace :deploy do
       symlink_hash["#{shared_path}/config/#{fname}.yml"] = "#{release_path}/config/#{fname}.yml"
     end
     symlink_hash.each do |source, target|
-      run "cp #{source} #{target}"
+      run "ln -s #{source} #{target}"
     end
   end
 end
