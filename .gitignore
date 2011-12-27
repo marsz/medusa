@@ -8,3 +8,4 @@ config/proxymesh.yml
 config/builder.yml
 config/airbrake.yml
 lib/tasks/import.rake
+config/deploy/*.rb

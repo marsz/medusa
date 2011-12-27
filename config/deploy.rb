@@ -43,6 +43,3 @@ before "deploy:migrate", "deploy:symlink_shared"
 after "deploy", "deploy:cleanup"
 after "deploy", "deploy:symlink_shared"
 after "deploy:migrations", "deploy:cleanup"
-
-        require './config/boot'
-        require 'airbrake/capistrano'
