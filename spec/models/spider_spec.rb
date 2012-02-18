@@ -38,7 +38,7 @@ describe Spider do
     end
   end
   
-  describe "method - fetch" do
+  describe "#fetch" do
     it "normal + encoding" do
       url = "http://www.urcosme.com"
       content = @spider.fetch(url,nil,{:encoding=>"big5"})
@@ -46,6 +46,19 @@ describe Spider do
       (content.index("美") != nil).should == true
       @spider.fetch_success?.should == true
       (@spider.fetch(url).index("美") == nil).should == true
+    end
+  end
+  
+  describe "#download" do
+    it "normal" do
+      url = "http://f2.urcosme.com/images/logo.gif"
+      new_file_url = @spider.download(url)
+      storage = Storage.last
+      storage.new_record?.should be_false
+      storage.spider_id.should == @spider.id
+      storage.url.should == new_file_url
+      new_file_url.should_not be_nil
+      storage.source_url.should == url
     end
   end
   
