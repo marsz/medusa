@@ -2,6 +2,10 @@ class CrawlerController < ApplicationController
   include ActAsAuthable
   act_as_authable
   
+  def download
+    render_by_format handle_by_action
+  end
+  
   def fetch
     render_by_format handle_by_action
   end
@@ -19,6 +23,10 @@ class CrawlerController < ApplicationController
     end
     AppCrawling.create!(:app => @app, :url => params[:url]) if @app && !@options[:disable_log]
     data
+  end
+  def handle_download spider
+    url = spider.download(params[:url])
+    {:url => url, :status => spider.response_code}
   end
   def handle_fetch spider
     data = spider.fetch(params[:url], params[:query], :encoding => @options[:encoding])
