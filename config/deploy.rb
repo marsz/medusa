@@ -27,7 +27,7 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :symlink_shared, :roles => [:app] do
-    config_files = [:database, :builder, :airbrake]
+    config_files = [:database, :builder, :airbrake, :fog]
     symlink_hash = {}
     config_files.each do |fname|
       symlink_hash["#{shared_path}/config/#{fname}.yml"] = "#{release_path}/config/#{fname}.yml"
@@ -35,6 +35,9 @@ namespace :deploy do
     symlink_hash.each do |source, target|
       run "ln -s #{source} #{target}"
     end
+  end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "touch #{current_path}/tmp/restart.txt"
   end
 end
 
