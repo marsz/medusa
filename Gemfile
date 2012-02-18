@@ -43,3 +43,4 @@ gem 'rest-client'
 gem 'whenever', :require => false
 gem 'domainatrix'
 gem 'airbrake'
+gem 'fog'

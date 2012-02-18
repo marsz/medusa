@@ -12,11 +12,17 @@ class Spider < ActiveRecord::Base
 
   attr_reader :response_code
   
+  def download url
+    storage = send "download_by_#{connect_type}", url
+    set_response_code(storage)
+    fetch_success? ? storage.url : nil
+  end
+  
   def fetch url, query_data = {}, options = {}
     query_data ||= {}
     encode = options[:encoding] || 'UTF-8'
     content = method("fetch_by_#{connect_type}").call(url,query_data)
-    set_response_code_by_content(content)
+    set_response_code(content)
     fetch_success? ? Iconv.new('UTF-8//IGNORE', encode).iconv(content) : nil
   end
   
@@ -41,7 +47,7 @@ class Spider < ActiveRecord::Base
     self.connect_type = self.connect_type.to_sym if self.connect_type
   end
   
-  def set_response_code_by_content content
-    @response_code = content.is_a?(String)? 200 : content
+  def set_response_code content
+    @response_code = content.is_a?(Fixnum)? content : 200
   end
 end

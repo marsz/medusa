@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111113142804) do
+ActiveRecord::Schema.define(:version => 20120218081528) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -65,5 +65,16 @@ ActiveRecord::Schema.define(:version => 20111113142804) do
   add_index "spiders", ["connect_type"], :name => "index_spiders_on_connect_type"
   add_index "spiders", ["ip"], :name => "index_spiders_on_ip", :unique => true
   add_index "spiders", ["is_enabled"], :name => "index_spiders_on_is_enabled"
+
+  create_table "storages", :force => true do |t|
+    t.string   "source_url"
+    t.string   "url"
+    t.integer  "spider_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "storages", ["source_url"], :name => "index_storages_on_source_url", :unique => true
+  add_index "storages", ["spider_id"], :name => "index_storages_on_spider_id"
 
 end
