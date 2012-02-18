@@ -45,55 +45,55 @@ describe CrawlerController do
     it { should route(:get, "/crawler/download.json").to(:action=>:download,:format=>:json) }
   end
   
-  # describe "#fetch" do
-  #   it "get fetch normal" do
-  #     get :fetch, :url => "http://www.google.com",:token => @app.token
-  #     response.should be_success
-  #   end
-  #   it "post fetch normal" do
-  #     post :fetch, :url => "http://www.bing.com",:token => @app.token
-  #     response.should be_success
-  #   end
-  #   it "get fetch normal, test log" do
-  #     get :fetch, :url => "http://www.google.com",:token => @app.token
-  #     response.should be_success
-  #     AppCrawling.all.size.should == 1
-  #     get :fetch, :url => "http://www.google.com",:token => @app.token, :options => {:disable_log => true}
-  #     response.should be_success
-  #     AppCrawling.all.size.should == 1
-  #   end
-  #   it "post fetch without url" do
-  #     expect {
-  #       post :fetch, :token => @app.token
-  #     }.to raise_error(RuntimeError)
-  #   end
-  #   it "get fetch without url" do
-  #     expect {
-  #       get :fetch, :token => @app.token
-  #     }.to raise_error(RuntimeError)
-  #   end
-  #   describe "json format " do
-  #     before do
-  #       @action = "fetch"
-  #     end
-  #     it "should respone 200 " do
-  #       get 'fetch', :format => :json, :url => "http://www.google.com",:token => @app.token
-  #       response.should be_success
-  #       hash = ActiveSupport::JSON.decode(response.body)
-  #       hash.is_a?(Hash).should == true
-  #       hash["data"].size.should > 0
-  #       hash["status"].should == 200
-  #     end
-  #     it "should respone 200 with https" do
-  #       get 'fetch', :format => :json, :url => "https://github.com",:token => @app.token
-  #       response.should be_success
-  #       hash = ActiveSupport::JSON.decode(response.body)
-  #       hash["data"].size.should > 0
-  #       hash["status"].should == 200
-  #     end
-  #     it_should_behave_like "bad_urls"
-  #   end
-  # end
+  describe "#fetch" do
+    it "get fetch normal" do
+      get :fetch, :url => "http://www.google.com",:token => @app.token
+      response.should be_success
+    end
+    it "post fetch normal" do
+      post :fetch, :url => "http://www.bing.com",:token => @app.token
+      response.should be_success
+    end
+    it "get fetch normal, test log" do
+      get :fetch, :url => "http://www.google.com",:token => @app.token
+      response.should be_success
+      AppCrawling.all.size.should == 1
+      get :fetch, :url => "http://www.google.com",:token => @app.token, :options => {:disable_log => true}
+      response.should be_success
+      AppCrawling.all.size.should == 1
+    end
+    it "post fetch without url" do
+      expect {
+        post :fetch, :token => @app.token
+      }.to raise_error(RuntimeError)
+    end
+    it "get fetch without url" do
+      expect {
+        get :fetch, :token => @app.token
+      }.to raise_error(RuntimeError)
+    end
+    describe "json format " do
+      before do
+        @action = "fetch"
+      end
+      it "should respone 200 " do
+        get 'fetch', :format => :json, :url => "http://www.google.com",:token => @app.token
+        response.should be_success
+        hash = ActiveSupport::JSON.decode(response.body)
+        hash.is_a?(Hash).should == true
+        hash["data"].size.should > 0
+        hash["status"].should == 200
+      end
+      it "should respone 200 with https" do
+        get 'fetch', :format => :json, :url => "https://github.com",:token => @app.token
+        response.should be_success
+        hash = ActiveSupport::JSON.decode(response.body)
+        hash["data"].size.should > 0
+        hash["status"].should == 200
+      end
+      it_should_behave_like "bad_urls"
+    end
+  end
   describe "#download" do
     before do
       @action = "download"
@@ -113,5 +113,7 @@ describe CrawlerController do
       hash["url"].size.should > 0
       hash["status"].should == 200
     end
+    pending "with referer"
+    pending "url with paramters"
   end
 end

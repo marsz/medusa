@@ -1,5 +1,6 @@
 class Spider < ActiveRecord::Base
   include ActAsProxy
+  act_as_proxy
 
   scope :enabled, where(:is_enabled=>true)  
   validates_uniqueness_of :ip

@@ -3,10 +3,13 @@ require 'iconv'
 module ActAsProxy
   extend ActiveSupport::Concern
   module ClassMethods
+    def act_as_proxy
+      attr_accessor :referer
+    end
   end
   module InstanceMethods
-    def download_by_proxy url
-      ext = File.extname url
+    def download_by_proxy url, options = {}
+      ext = get_file_ext url
       tmp_file_path = "#{Rails.root}/tmp/#{Digest::MD5.hexdigest(Time.now.to_s)}#{ext}"
       result = do_download url, tmp_file_path
       return result if result.is_a?(Fixnum)
@@ -28,6 +31,13 @@ module ActAsProxy
     end
     
     private
+    def get_file_ext url
+      begin
+        File.extname(URI.parse(url).path)
+      rescue
+        nil
+      end
+    end
     def get_port
       self.port || self.account.port
     end
@@ -49,7 +59,8 @@ module ActAsProxy
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           http = http.start
         end
-        response = http.get(uri.path)
+        header = referer ? {"Referer"=>referer} : {}
+        response = http.get(uri.path+(uri.query.blank? ? "" : "?#{uri.query}"), header)
         return response.code.to_i if response.code.to_i != 200
         open(save_file_path, "wb") do |tmp_file|
           tmp_file.write(response.body)

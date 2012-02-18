@@ -25,6 +25,7 @@ class CrawlerController < ApplicationController
     data
   end
   def handle_download spider
+    spider.referer = params[:referer]
     url = spider.download(params[:url])
     {:url => url, :status => spider.response_code}
   end
