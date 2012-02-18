@@ -15,25 +15,9 @@ module ActAsSpiderPickable
       end
       spider_ids.size > 0 ? Spider.find(spider_ids[0]) : nil
     end
-    def crawling(url, query = {}, options = {})
-      if options[:ip]
-        spider = Spider.find_by_ip_and_is_enabled(options[:ip], true)
-      else
-        spider = pick_spider(url)
-      end
-      # logger.debug "---------------------"+spider.inspect
-      if spider
-        result = spider.fetch(url, query, options)
-        if spider.fetch_success?
-          domain = parse_domain(url)
-          DomainCrawling.find_by_domain_and_spider_id(domain,spider.id).update_attributes(:crawled_at=>Time.now)
-          result
-        else
-          spider.response_code
-        end
-      else
-        raise "no spider for crawling"
-      end
+    def crawled spider, url
+      domain = parse_domain(url)
+      DomainCrawling.find_by_domain_and_spider_id(domain,spider.id).update_attributes(:crawled_at=>Time.now)
     end
   end
   module InstanceMethods

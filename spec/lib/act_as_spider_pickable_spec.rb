@@ -16,14 +16,8 @@ shared_examples_for "act_as_spider_pickable" do
     @klass.pick_spider(url).id.should == @spider.id
     DomainCrawling.all.size.should == 2
   end
-  
-  it "crawling" do
-    url = "http://www.google.com"
-    data = @klass.crawling(url)
-    data.is_a?(String).should == true
-    data.size.should > 0
-  end
-  
+
+  pending "#crawled"
 end
 
 describe "included classes" do

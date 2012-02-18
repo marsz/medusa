@@ -4,22 +4,35 @@ module ActAsProxy
   module ClassMethods
   end
   module InstanceMethods
-    def fetch_by_proxy url, query_data = {}, options = {}
+    def fetch_by_proxy url, query_data = {}
       query_data ||= {}
-      method = options[:method] || 'get'
-      port = self.port || self.account.port
-      host = self.ip || self.account.host
-      RestClient.proxy = "http://#{self.account.user}:#{self.account.secret}@#{host}:#{port}"
+      method = 'get' # TODO support post
+      RestClient.proxy = "http://#{self.account.user}:#{self.account.secret}@#{get_host}:#{get_port}"
       begin
         RestClient.method(method).call(url, query_data)
       rescue => e
-        handle_exception_from_fetch(e, url, query_data, options)
+        handle_exception_from_fetch(e, url, query_data)
       end
     end
     
     private
-    
-    def handle_exception_from_fetch e, url, query_data = {}, options = {}
+    def get_port
+      self.port || self.account.port
+    end
+    def get_host
+      self.ip || self.account.host
+    end
+    def do_download url, save_file_path
+      uri = URI.parse(url)
+      Net::HTTP::Proxy(get_host,get_port,self.account.user,self.account.secret).start(uri.host, uri.port) do |http|
+        response = http.get(uri.path)
+        open(tmp_file_path, "wb") do |tmp_file|
+          tmp_file.write(response.body)
+          tmp_file.close
+        end
+      end
+    end
+    def handle_exception_from_fetch(e, url, query_data = {})
       if e.respond_to?(:http_code)
         e.http_code
       else
