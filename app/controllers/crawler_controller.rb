@@ -26,8 +26,14 @@ class CrawlerController < ApplicationController
   end
   def handle_download spider
     spider.referer = params[:referer]
-    url = spider.download(params[:url])
-    {:url => url, :status => spider.response_code}
+    if s = Storage.find_by_source_url(params[:url])
+      url = s.url
+      status = 304
+    else
+      url = spider.download(params[:url])
+      status = spider.response_code
+    end
+    {:url => url, :status => status}
   end
   def handle_fetch spider
     data = spider.fetch(params[:url], params[:query], :encoding => @options[:encoding])

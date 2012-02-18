@@ -106,6 +106,16 @@ describe CrawlerController do
       hash["url"].size.should > 0
       hash["status"].should == 200
     end
+    it "304 cached" do
+      get "download", :format => :json, :url => "http://f2.urcosme.com/images/logo.gif",:token => @app.token
+      size = Storage.scoped.count
+      log_id = DomainCrawling.last.id
+      get "download", :format => :json, :url => "http://f2.urcosme.com/images/logo.gif",:token => @app.token
+      Storage.scoped.count.should == size
+      DomainCrawling.last.id.should == log_id
+      hash = ActiveSupport::JSON.decode(response.body)
+      hash["status"].should == 304
+    end
     it "https" do
       get "download", :format => :json, :url => "https://secure.gravatar.com/avatar/0b2f434918eb4a08439d180a13829631",:token => @app.token
       response.should be_success
