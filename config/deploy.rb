@@ -19,8 +19,8 @@ set :scm, :git
 set :stages,        %w(staging production)
 set :default_stage, "production"
 
-task :tail, :roles => :app do
-  run "tail -f #{release_path}/log/#{rails_env}.log"
+task :tail_log, :roles => :app do
+  run "tail -n 100 -f #{current_path}/log/#{rails_env}.log"
 end
 
 namespace :deploy do
