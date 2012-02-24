@@ -45,7 +45,13 @@ describe CrawlerController do
     it { should route(:get, "/crawler/download.json").to(:action=>:download,:format=>:json) }
   end
   
+  
   describe "#fetch" do
+    it "with options[ip]" do
+      spider = Spider.first
+      get :fetch, :url => "http://www.google.com",:token => @app.token, :options => {:ip => spider.ip}
+      response.should be_success
+    end
     it "get fetch normal" do
       get :fetch, :url => "http://www.google.com",:token => @app.token
       response.should be_success

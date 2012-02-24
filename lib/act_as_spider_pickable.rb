@@ -17,7 +17,8 @@ module ActAsSpiderPickable
     end
     def crawled spider, url
       domain = parse_domain(url)
-      DomainCrawling.find_by_domain_and_spider_id(domain,spider.id).update_attributes(:crawled_at=>Time.now)
+      domain_crawling = DomainCrawling.find_by_domain_and_spider_id(domain,spider.id) || DomainCrawling.create(:spider_id=>spider.id,:domain=>domain)
+      domain_crawling.update_attributes(:crawled_at=>Time.now) if domain_crawling
     end
   end
   module InstanceMethods
