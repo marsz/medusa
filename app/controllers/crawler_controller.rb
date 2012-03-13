@@ -17,6 +17,7 @@ class CrawlerController < ApplicationController
     spider = @options[:ip] ? Spider.find_by_ip_and_is_enabled(@options[:ip], true) : DomainCrawling.pick_spider(params[:url])
     if spider
       data = send "handle_#{params[:action]}", spider
+      data[:spider] = {:id => spider.id, :ip => spider.ip}
       DomainCrawling.crawled(spider, params[:url]) if data[:status] == 200
     else
       raise "no spiders!"
