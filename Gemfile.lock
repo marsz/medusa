@@ -31,9 +31,6 @@ GEM
     activesupport (3.1.0)
       multi_json (~> 1.0)
     addressable (2.2.6)
-    airbrake (3.0.8)
-      activesupport
-      builder
     ansi (1.3.0)
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
@@ -56,6 +53,8 @@ GEM
     domainatrix (0.0.10)
       addressable
     erubis (2.7.0)
+    exceptional (2.0.32)
+      rack
     excon (0.9.4)
     execjs (1.2.6)
       multi_json (~> 1.0)
@@ -175,10 +174,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake
   capistrano
   coffee-rails (~> 3.1.0)
   domainatrix
+  exceptional
   execjs
   factory_girl_rails
   fog

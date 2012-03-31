@@ -42,5 +42,5 @@ gem 'capistrano'
 gem 'rest-client'
 gem 'whenever', :require => false
 gem 'domainatrix'
-gem 'airbrake'
+gem 'exceptional'
 gem 'fog'

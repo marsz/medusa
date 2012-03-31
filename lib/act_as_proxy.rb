@@ -75,9 +75,10 @@ module ActAsProxy
         case e
         when Net::HTTPBadResponse
           400
-        else
-          Airbrake.notify(e, :parameters => {:spider => self.id, :url => url, :query => query_data, :exception => e.inspect})
+        when URI::InvalidURIError
           0
+        else
+          raise e
         end
       end
     end
