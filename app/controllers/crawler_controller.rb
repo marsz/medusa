@@ -18,7 +18,7 @@ class CrawlerController < ApplicationController
     if spider
       data = send "handle_#{params[:action]}", spider
       data[:spider] = {:id => spider.id, :ip => spider.ip}
-      DomainCrawling.crawled(spider, params[:url]) if data[:status] == 200
+      DomainCrawling.crawled(spider, params[:url])
     else
       raise "no spiders!"
     end
