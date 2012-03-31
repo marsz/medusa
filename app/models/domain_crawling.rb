@@ -7,11 +7,11 @@ class DomainCrawling < ActiveRecord::Base
   
   belongs_to :spider
   
-  before_save :domain_refine
+  before_validation :domain_refine
   
   protected
   def domain_refine
     self.domain = parse_domain(self.domain) || self.domain
-    self.domain = self.domain.downcase.gsub(" ","")
+    self.domain = self.domain.to_s.downcase.gsub(" ","")
   end
 end
