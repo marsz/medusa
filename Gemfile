@@ -44,3 +44,4 @@ gem 'whenever', :require => false
 gem 'domainatrix'
 gem 'exceptional'
 gem 'fog'
+gem 'newrelic_rpm'

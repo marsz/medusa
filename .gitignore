@@ -8,5 +8,6 @@ config/proxymesh.yml
 config/builder.yml
 config/exceptional.yml
 config/fog.yml
+config/newrelic.yml
 lib/tasks/import.rake
 config/deploy/*.rb

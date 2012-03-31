@@ -27,7 +27,7 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :symlink_shared, :roles => [:app] do
-    config_files = [:database, :builder, :fog, :exceptional]
+    config_files = [:database, :builder, :fog, :exceptional, :newrelic]
     symlink_hash = {}
     config_files.each do |fname|
       symlink_hash["#{shared_path}/config/#{fname}.yml"] = "#{release_path}/config/#{fname}.yml"
