@@ -83,7 +83,7 @@ describe CrawlerController do
         @action = "fetch"
       end
       it "should respone 200 " do
-        get 'fetch', :format => :json, :url => "http://www.google.com",:token => @app.token
+        get 'fetch', :format => :json, :url => "http://www.pixnet.net",:token => @app.token
         response.should be_success
         hash = ActiveSupport::JSON.decode(response.body)
         hash.is_a?(Hash).should == true

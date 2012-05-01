@@ -7,7 +7,7 @@ shared_examples_for "fetch_by_connect_type" do
     end
     
     it "normal url" do
-      url = "http://www.google.com.tw"
+      url = "http://www.pixnet.net"
       @spider.send("fetch_by_#{@connect_type}", url).should be_a_kind_of(String)
     end
 
