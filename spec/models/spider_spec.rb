@@ -40,7 +40,7 @@ describe Spider do
   
   describe "#fetch" do
     it "normal + encoding" do
-      url = "http://www.urcosme.com"
+      url = "http://www.cpc.com.tw"
       content = @spider.fetch(url,nil,{:encoding=>"big5"})
       (content.size > 0).should == true
       (content.index("美") != nil).should == true
@@ -51,7 +51,7 @@ describe Spider do
   
   describe "#download" do
     it "normal" do
-      url = "http://f2.urcosme.com/images/logo.gif"
+      url = "http://www.google.com.tw/images/srpr/logo3w.png"
       new_file_url = @spider.download(url)
       storage = Storage.last
       storage.new_record?.should be_false
