@@ -37,7 +37,7 @@ class CrawlerController < ApplicationController
     {:url => url, :status => status}
   end
   def handle_fetch spider
-    data = spider.fetch(params[:url], params[:query], :encoding => @options[:encoding])
+    data = spider.fetch(params[:url], params[:query], :encoding => @options[:encoding], :method => params[:method])
     data = spider.response_code unless spider.fetch_success?
     render_fetch data
   end

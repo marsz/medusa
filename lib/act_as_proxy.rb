@@ -19,12 +19,12 @@ module ActAsProxy
       File.delete tmp_file_path if File.exists?(tmp_file_path)
       storage
     end
-    def fetch_by_proxy url, query_data = {}
+    def fetch_by_proxy(url, query_data = {}, options = {})
       query_data ||= {}
-      method = 'get' # TODO support post
+      method = options[:method] || 'get'
       RestClient.proxy = "http://#{self.account.user}:#{self.account.secret}@#{get_host}:#{get_port}"
       begin
-        RestClient.method(method).call(url, query_data)
+        RestClient.send(method, url, query_data)
       rescue => e
         handle_exception_from_fetch(e, url, query_data)
       end

@@ -19,12 +19,11 @@ class Spider < ActiveRecord::Base
     fetch_success? ? storage.url : nil
   end
   
-  def fetch url, query_data = {}, options = {}
+  def fetch(url, query_data = {}, options = {})
     query_data ||= {}
-    encode = options[:encoding] || 'UTF-8'
-    content = method("fetch_by_#{connect_type}").call(url,query_data)
+    content = method("fetch_by_#{connect_type}").call(url, query_data, get_fetch_options(options))
     set_response_code(content)
-    fetch_success? ? Iconv.new('UTF-8//IGNORE', encode).iconv(content) : nil
+    fetch_success? ? encode_text(content, options[:encoding] || 'UTF-8') : nil
   end
   
   def fetch_success?
@@ -51,4 +50,13 @@ class Spider < ActiveRecord::Base
   def set_response_code content
     @response_code = content.is_a?(Fixnum)? content : 200
   end
+  
+  def get_fetch_options(options)
+    { :method => options[:method] }
+  end
+  
+  def encode_text(text, encode)
+    Iconv.new('UTF-8//IGNORE', encode).iconv(text)
+  end
+  
 end
