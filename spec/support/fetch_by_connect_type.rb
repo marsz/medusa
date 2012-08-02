@@ -7,7 +7,7 @@ shared_examples_for "fetch_by_connect_type" do
     end
     
     it "normal url" do
-      url = "http://www.pixnet.net"
+      url = "http://medusa.marsz.tw/"
       @spider.send("fetch_by_#{@connect_type}", url).should be_a_kind_of(String)
     end
 
@@ -27,7 +27,7 @@ shared_examples_for "fetch_by_connect_type" do
     end
     
     it "404 url" do
-      url = "http://www.google.com.tw/abvdefg"
+      url = "http://medusa.marsz.tw/abcd"
       @spider.send("fetch_by_#{@connect_type}", url).should == 404
     end
     
