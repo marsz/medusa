@@ -26,7 +26,8 @@ module ActAsProxy
       begin
         RestClient.send(method, url, query_data)
       rescue => e
-        handle_exception_from_fetch(e, url, query_data)
+        http_code = handle_exception_from_fetch(e, url, query_data)
+        http_code == 408 ? fetch_by_proxy(url, query_data = {}, options = {}) : http_code
       end
     end
     
