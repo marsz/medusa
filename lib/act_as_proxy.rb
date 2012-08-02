@@ -2,12 +2,15 @@ require 'net/http'
 require 'iconv'
 module ActAsProxy
   extend ActiveSupport::Concern
+  
   module ClassMethods
     def act_as_proxy
       attr_accessor :referer
     end
   end
+  
   module InstanceMethods
+    
     def download_by_proxy url, options = {}
       ext = get_file_ext url
       tmp_file_path = "#{Rails.root}/tmp/#{Digest::MD5.hexdigest(Time.now.to_s)}#{ext}"
@@ -19,6 +22,7 @@ module ActAsProxy
       File.delete tmp_file_path if File.exists?(tmp_file_path)
       storage
     end
+    
     def fetch_by_proxy(url, query_data = {}, options = {})
       query_data ||= {}
       method = options[:method] || 'get'
@@ -27,11 +31,12 @@ module ActAsProxy
         RestClient.send(method, url, query_data)
       rescue => e
         http_code = handle_exception_from_fetch(e, url, query_data)
-        http_code == 408 && Rails.env == "test" ? fetch_by_proxy(url, query_data = {}, options = {}) : http_code
+        (http_code == 408 && Rails.env == "test") ? fetch_by_proxy(url, query_data, options) : http_code
       end
     end
     
     private
+    
     def get_file_ext url
       begin
         File.extname(URI.parse(url).path)
@@ -39,12 +44,15 @@ module ActAsProxy
         nil
       end
     end
+    
     def get_port
       self.port || self.account.port
     end
+    
     def get_host
       self.ip || self.account.host
     end
+    
     def do_download url, save_file_path
       begin
         uri = URI.parse(url)
@@ -69,6 +77,7 @@ module ActAsProxy
         end
       end
     end
+    
     def handle_exception_from_fetch(e, url, query_data = {})
       if e.respond_to?(:http_code)
         e.http_code

@@ -51,7 +51,7 @@ describe Spider do
   
   describe "#download" do
     it "normal" do
-      url = "http://www.google.com.tw/images/srpr/logo3w.png"
+      url = "http://medusa.marsz.tw/index.html"
       new_file_url = @spider.download(url)
       storage = Storage.last
       storage.new_record?.should be_false
