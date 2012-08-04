@@ -95,7 +95,7 @@ describe CrawlerController do
         response.should be_success
         hash = ActiveSupport::JSON.decode(response.body)
         hash["data"].size.should > 0
-        hash["status"].should == 200
+        [200, 408].include?(hash["status"]).should be_true
       end
       it_should_behave_like "bad_urls"
     end

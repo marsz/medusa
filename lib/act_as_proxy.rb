@@ -70,6 +70,7 @@ module ActAsProxy
         end
         header = referer ? {"Referer"=>referer} : {}
         response = http.get(uri.path+(uri.query.blank? ? "" : "?#{uri.query}"), header)
+        do_download url, save_file_path if Rails.env == "test" && response.code.to_i == 408
         return response.code.to_i if response.code.to_i != 200
         open(save_file_path, "wb") do |tmp_file|
           tmp_file.write(response.body)
