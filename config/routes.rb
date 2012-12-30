@@ -4,7 +4,7 @@ Medusa::Application.routes.draw do
     member do
       get "refresh_ip_list"
     end
-    resources :spiders, :only => [:create, :update, :destroy], do
+    resources :spiders, :only => [:create, :update, :destroy] do
       collection do
         get "validate"
         post "validate"
