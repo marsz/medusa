@@ -11,11 +11,13 @@ module ActAsAuthable
     
     def authenticate_app
       @app = authenticating(params[:token])
-      raise "token fail" if !@app
+
+      render_401 if !@app || !@app.validate_domain(request.env["HTTP_REFERER"])
+      response.headers["Access-Control-Allow-Origin"] = "*"
     end
     
     private
-    
+
     def authenticating token
       app = nil
       if !token.blank?

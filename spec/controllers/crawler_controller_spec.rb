@@ -7,25 +7,22 @@ shared_examples_for "bad_urls" do
   end
   it "should response 503" do
     get @action, :format => :json, :url => "http://mmaarrsszz.com/zzzz",:token => @app.token
-    response.should be_success
-    ActiveSupport::JSON.decode(response.body)["status"].should == 503
+    response.status.should == 503
   end
   
   it "should response 403" do
     get @action, :format => :json, :url => "http://a033755191.pixnet.net/blog/listall/1",:token => @app.token
-    response.should be_success
-    ActiveSupport::JSON.decode(response.body)["status"].should == 403
+    response.status.should == 403
   end
   
   it "should response 404" do
     get @action, :format => :json, :url => "http://www.google.com.tw/abvdefg",:token => @app.token
-    response.should be_success
-    ActiveSupport::JSON.decode(response.body)["status"].should == 404
+    response.status.should == 404
   end
   
   it "should raise exception" do
     get @action, :format => :json, :url => "dalskjd adskljdsa",:token => @app.token
-    ActiveSupport::JSON.decode(response.body)["status"].should == 0
+    response.status.should == 0
   end
   
 end
@@ -88,14 +85,14 @@ describe CrawlerController do
         hash = ActiveSupport::JSON.decode(response.body)
         hash.is_a?(Hash).should == true
         hash["data"].size.should > 0
-        hash["status"].should == 200
+        response.status.should == 200
       end
       it "should respone 200 with https" do
         get 'fetch', :format => :json, :url => "https://github.com",:token => @app.token
         response.should be_success
         hash = ActiveSupport::JSON.decode(response.body)
         hash["data"].size.should > 0
-        [200, 408].include?(hash["status"]).should be_true
+        [200, 408].include?(response.status).should be_true
       end
       it_should_behave_like "bad_urls"
     end
@@ -110,7 +107,7 @@ describe CrawlerController do
       response.should be_success
       hash = ActiveSupport::JSON.decode(response.body)
       hash["url"].size.should > 0
-      hash["status"].should == 200
+      response.status.should == 200
     end
     it "304 cached" do
       get "download", :format => :json, :url => "http://f2.urcosme.com/images/logo.gif",:token => @app.token
@@ -120,14 +117,14 @@ describe CrawlerController do
       Storage.scoped.count.should == size
       DomainCrawling.last.id.should == log_id
       hash = ActiveSupport::JSON.decode(response.body)
-      hash["status"].should == 304
+      response.status.should == 304
     end
     it "https" do
       get "download", :format => :json, :url => "https://secure.gravatar.com/avatar/0b2f434918eb4a08439d180a13829631",:token => @app.token
       response.should be_success
       hash = ActiveSupport::JSON.decode(response.body)
       hash["url"].size.should > 0
-      hash["status"].should == 200
+      response.status.should == 200
     end
     pending "with referer"
     pending "url with paramters"
