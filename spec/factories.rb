@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :app do
-    name "marsz"
-    token "1234"
+    sequence(:name){ |i| "marsz#{i}" }
   end
 
   factory :account do

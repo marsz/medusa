@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120218081528) do
+ActiveRecord::Schema.define(:version => 20130101142612) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20120218081528) do
 
   create_table "apps", :force => true do |t|
     t.string   "token"
+    t.string   "limited_domains"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

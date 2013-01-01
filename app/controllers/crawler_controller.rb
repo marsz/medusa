@@ -54,11 +54,17 @@ class CrawlerController < ApplicationController
     end
     result
   end
-  def render_by_format data
+  def render_by_format(data, status = nil)
+    status ||= data[:status] || 200
     respond_to do |f|
-      f.html {render :text => data[:data].to_s}
-      f.json {render :json => data.to_json}
-      f.xml {render :xml => data.to_xml}
+      f.html { render :text => data[:data].to_s, :status => status }
+      f.json { render :json => data.to_json, :status => status }
+      f.xml {render :xml => data.to_xml, :status => status}
     end
   end
+
+  def render_401
+    render_by_format({ :message => "App Auth Fail" }, 401)
+  end
+
 end
