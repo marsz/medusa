@@ -38,7 +38,14 @@ group :test, :development do
   gem "factory_girl_rails"
 end
 
-gem 'capistrano'
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-ext'
+  
+  gem 'capistrano_colors'
+  gem 'rvm-capistrano'
+end
+
 gem 'rest-client'
 gem 'whenever', :require => false
 gem 'domainatrix'
