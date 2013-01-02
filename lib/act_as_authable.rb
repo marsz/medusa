@@ -12,7 +12,7 @@ module ActAsAuthable
     def authenticate_app
       @app = authenticating(params[:token])
 
-      render_401 if !@app || !@app.validate_domain(request.env["HTTP_REFERER"])
+      render_401 if !@app || !@app.validate_domain([request.env["HTTP_REFERER"], request.remote_ip])
       response.headers["Access-Control-Allow-Origin"] = "*"
     end
     
