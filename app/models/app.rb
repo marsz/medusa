@@ -5,11 +5,15 @@ class App < ActiveRecord::Base
 
   before_create :generate_token
 
-  def validate_domain(domain)
+  def validate_domain(domains)
     return true if !limited_domains.present?
-    return false if !domain.present?
-    domain = URI.parse(domain).host if domain.index("http") == 0
-    limited_domains.gsub(" ", "").split(",").include?(domain)
+    return false if !domains.present?
+    domains = [domains] if domains.is_a?(String)
+    domains.each do |domain|
+      domain = URI.parse(domain).host if domain.index("http") == 0
+      return true if limited_domains.gsub(" ", "").split(",").include?(domain)
+    end
+    false
   end
 
   private 
