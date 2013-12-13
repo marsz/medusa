@@ -11,7 +11,7 @@ Medusa::Application.routes.draw do
       end
     end
   end
-  
+  resources :users
   resources :crawler do
     collection do
       get 'fetch'
